@@ -1,7 +1,16 @@
 ﻿namespace Lab05;
 
+public record StudentDegree(Degree degree, string StudentName);
 class Program
 {
+    public static void RecordDemo()
+    {
+        StudentDegree sd1 = new StudentDegree(Degree.BARDZO_DOBRY, "Adam");
+        StudentDegree sd2 = new StudentDegree(Degree.DOBRY, "Ewa");
+        Console.WriteLine(sd1);
+        Console.WriteLine(sd1 == sd2);
+        Console.WriteLine(sd1 == new StudentDegree(Degree.BARDZO_DOBRY, "Adam"));
+    }
     static void Main(string[] args)
     {
         Console.WriteLine("Wpisz jedną z poniższych ocen: ");
@@ -22,9 +31,7 @@ class Program
         Degree d = Degree.BARDZO_DOBRY;
         Console.WriteLine((int)d);
         Console.WriteLine((int)degree);
-        int d1 = (int)d;
-        int d2 = (int)degree;
-        Console.WriteLine($"Średnia ocen: {(d1 + d2) / 20.0}");
+        Console.WriteLine($"Średnia ocen: {(d.Value() + degree.Value()) / 2}");
     }
 
     public static void SwitchDemo()
@@ -41,12 +48,12 @@ class Program
         }
         string englishDegree = degree switch
         {
-            Degree.BARDZO_DOBRY => "A",
-            Degree.DOBRY_PLUS => "B",
-            Degree.DOBRY => "C",
-            Degree.DOSTATECZNY_PLUS => "D",
-            Degree.DOSTATECZNY => "E",
             Degree.NIEDOSTATECZNY => "F",
+            Degree.DOSTATECZNY => "E",
+            Degree.DOSTATECZNY_PLUS => "D",
+            Degree.DOBRY => "C",
+            Degree.DOBRY_PLUS => "B",
+            Degree.BARDZO_DOBRY => "A",
             _ => throw new ArgumentOutOfRangeException(nameof(degree), degree, null)
         };
         Console.WriteLine(englishDegree);
@@ -77,3 +84,35 @@ public enum Degree
     DOBRY_PLUS = 45,
     BARDZO_DOBRY = 50
 }
+
+public static class DegreeExtension
+{
+    public static double Value(this Degree degree)
+    {
+        return degree switch
+        {
+            Degree.NIEDOSTATECZNY => 2.0,
+            Degree.DOSTATECZNY => 3.0,
+            Degree.DOSTATECZNY_PLUS => 3.5,
+            Degree.DOBRY => 4.0,
+            Degree.DOBRY_PLUS => 4.5,
+            Degree.BARDZO_DOBRY => 5.0,
+            _ => throw new ArgumentOutOfRangeException(nameof(degree), degree, null)
+        };
+    }
+
+    public static string ToEnglish(this Degree degree)
+    {
+        return degree switch
+        {
+            Degree.NIEDOSTATECZNY => "F",
+            Degree.DOSTATECZNY => "E",
+            Degree.DOSTATECZNY_PLUS => "D",
+            Degree.DOBRY => "C",
+            Degree.DOBRY_PLUS => "B",
+            Degree.BARDZO_DOBRY => "A",
+            _ => throw new ArgumentOutOfRangeException(nameof(degree), degree, null)
+        };
+    }
+}
+
