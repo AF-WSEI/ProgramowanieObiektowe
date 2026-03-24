@@ -1,6 +1,31 @@
 ﻿namespace Lab05;
 
 public record StudentDegree(Degree degree, string StudentName);
+
+public record Point
+{
+    public required double X { get; init; }
+    public required double Y { get; init; }
+
+    public Point MoveX(int delta)
+    {
+        return new Point()
+        {
+            X = X + delta,
+            Y = Y
+        };
+    }
+    
+    public Point MoveY(int delta)
+    {
+        return new Point()
+        {
+            X = X,
+            Y = Y + delta
+        };
+    }
+}
+
 class Program
 {
     public static void RecordDemo()
@@ -10,6 +35,19 @@ class Program
         Console.WriteLine(sd1);
         Console.WriteLine(sd1 == sd2);
         Console.WriteLine(sd1 == new StudentDegree(Degree.BARDZO_DOBRY, "Adam"));
+        Point p1 = new Point
+        {
+            X = 6,
+            Y = 7
+        };
+        Point p2 = new Point
+        {
+            X = 21,
+            Y = 37
+        };
+        Console.WriteLine(p1);
+        Console.WriteLine(p2);
+        Console.WriteLine(p1.MoveX(2));
     }
     static void Main(string[] args)
     {
