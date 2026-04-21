@@ -1,0 +1,7 @@
+1	Adam	12
+2	Ewa	34
+3	Karol	8
+4	Robert	21
+5	Alicja	25
+6	Robert	12
+7	Ewa	8
